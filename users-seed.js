@@ -1,4 +1,4 @@
-const baseUser = process.env.BASE_USER || {};
+const baseUser = JSON.parse(process.env.BASE_USER) || {};
 const users = {
   users : [
     {
