@@ -1,0 +1,7 @@
+{
+  "name": "JSON Auth Sample",
+  "description": "A barebones JSON app with JWT Authentication",
+  "repository": "https://github.com/VicAv99/json-auth-boilerplate",
+  "logo": "https://en.wikipedia.org/wiki/JSON#/media/File:JSON_vector_logo.svg",
+  "keywords": ["node", "json", "static"]
+}
