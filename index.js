@@ -1,5 +1,6 @@
 import { create, defaults, router as _router } from 'json-server';
-import { jwt as _jwt } from 'jsonwebtoken';
+import bodyParser from 'body-parser';
+import jwt from 'jsonwebtoken';
 import { random } from 'faker';
 import initialUsers from './users';
 
@@ -9,7 +10,7 @@ let data = {
 };
 
 const server = create();
-const middlewares = [defaults()];
+const middlewares = [defaults(), bodyParser.json()];
 const port = process.env.PORT || 3000;
 const router = _router({"items": data.items});
 
@@ -39,12 +40,12 @@ server.use(...middlewares);
 
 // Create token from payload
 const createToken = payload => {
-  return _jwt.sign(payload, SECRET_KEY, { expiresIn });
+  return jwt.sign(payload, SECRET_KEY, { expiresIn });
 }
 
 // Verify token
 const verifyToken = token => {
-  return _jwt.verify(
+  return jwt.verify(
     token, SECRET_KEY,
     (err, decode) => decode !== undefined ? decode : err
   );
