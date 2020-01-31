@@ -12,7 +12,7 @@ let data = {
 const server = create();
 const middlewares = [defaults(), bodyParser.json()];
 const port = process.env.PORT || 3000;
-const router = _router({"items": data.items});
+const router = _router({"users": data.users, "items": data.items});
 
 const baseUser = process.env.BASE_USER || {};
 const users  = data.users;
