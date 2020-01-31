@@ -52,7 +52,7 @@ const verifyToken = token => {
 
 // Check if user in DB
 const isAuthenticated = ({email, username, password}) => {
-  return users.users.findIndex(user => {
+  return users.findIndex(user => {
     return user.email === email || user.username === username && user.password === password
   }) !== -1;
 }
