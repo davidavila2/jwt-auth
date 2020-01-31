@@ -1,31 +1,53 @@
-import { create, router as _router, defaults } from 'json-server';
-import bodyParser from 'body-parser';
-import jwt from 'jsonwebtoken';
-import fs from 'fs';
+import { create, defaults, router as _router } from 'json-server';
+import { jwt as _jwt } from 'jsonwebtoken';
+import { random } from 'faker';
+import initialUsers from './users';
 
-const SECRET_KEY = '123456789';
-const expiresIn = '1h';
+let data = {
+  "users": initialUsers,
+  "items": [],
+};
 
 const server = create();
-const router = _router('./db.json');
-const users  = JSON.parse(fs.readFileSync('./users.json', 'UTF-8'));
-const middlewares = [defaults(), bodyParser.json()];
+const middlewares = [defaults()];
 const port = process.env.PORT || 3000;
+const router = _router({"items": data.items});
+
+const baseUser = process.env.BASE_USER || {};
+const users  = data.users;
+const randomAmount = Math.floor(Math.random() * 100);
+
+// Seed Data
+if (!!baseUser.id) {
+  data.users.push(baseUser);
+}
+
+for (let i = 1; i <= randomAmount; i++) {
+  data.items.push({
+    id: i,
+    name: `item ${i}`,
+    description: `${random.words()}`
+  });
+}
+
+// JWT
+const SECRET_KEY = '123456789';
+const expiresIn = '1h';
 
 // Apply middlewares
 server.use(...middlewares);
 
 // Create token from payload
 const createToken = payload => {
-  return jwt.sign(payload, SECRET_KEY, { expiresIn });
+  return _jwt.sign(payload, SECRET_KEY, { expiresIn });
 }
 
 // Verify token
 const verifyToken = token => {
-  return jwt.verify(
-      token, SECRET_KEY,
-      (err, decode) => decode !== undefined ? decode : err
-    );
+  return _jwt.verify(
+    token, SECRET_KEY,
+    (err, decode) => decode !== undefined ? decode : err
+  );
 }
 
 // Check if user in DB
@@ -39,7 +61,7 @@ const isAuthenticated = ({email, username, password}) => {
 server.post('/auth/login', (req, res) => {
   const { email, username, password } = req.body;
 
-  if(isAuthenticated({email, username, password}) === false) {
+  if (isAuthenticated({email, username, password}) === false) {
     const status = 401;
     const message = 'Incorrect email or password';
 
@@ -71,6 +93,6 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
   }
 });
 
-server.use(router)
+server.use(router);
 
-server.listen(port, () => console.log('JSON server is running on port:', port))
+server.listen(port, () => console.log('JSON server is running on port:', port));

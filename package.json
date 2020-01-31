@@ -4,9 +4,7 @@
   "description": "json-server including generated data and user authentication with jwt",
   "main": "index.js",
   "scripts": {
-    "start": "npm run seed-users && npm run seed-items && babel-node --presets es2015 index.js",
-    "seed-items": "babel-node --presets es2015 seed.js > db.json",
-    "seed-users": "babel-node --presets es2015 users-seed.js > users.json"
+    "start": "babel-node --presets es2015 index.js"
   },
   "author": "Victor Avila",
   "license": "MIT",
