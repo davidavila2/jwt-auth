@@ -2,7 +2,7 @@
 
 This is a mock database built with json-server using authentication via jwt.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/VicAv99/json-auth-boilerplate)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/davidavila2/jwt-auth)
 
 ## Prerequisites
 
